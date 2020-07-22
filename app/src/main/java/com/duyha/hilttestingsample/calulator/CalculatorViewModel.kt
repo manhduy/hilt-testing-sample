@@ -3,16 +3,16 @@ package com.duyha.hilttestingsample.calulator
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import com.duyha.hilttestingsample.Calculator
 import com.duyha.hilttestingsample.Event
 import com.duyha.hilttestingsample.R
 import javax.inject.Inject
 
-class CalculatorViewModel @Inject constructor(
+class CalculatorViewModel constructor(
     private val calculator: Calculator
 ) : ViewModel() {
 
-    private val _sum = MutableLiveData<Int>()
+    private val _sum = MutableLiveData<Int>().apply { value = 0 }
     val sum: LiveData<Int>
         get() = _sum
 
@@ -22,12 +22,14 @@ class CalculatorViewModel @Inject constructor(
 
     fun onSumClick(textA: String, textB: String) {
         if (textA.isEmpty()) {
+            _sum.value = 0
             _msg.value =
                 Event(R.string.msg_input_a)
             return
         }
 
         if (textB.isEmpty()) {
+            _sum.value = 0
             _msg.value =
                 Event(R.string.msg_input_b)
             return

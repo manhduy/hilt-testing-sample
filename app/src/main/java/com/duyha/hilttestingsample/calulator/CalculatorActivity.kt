@@ -5,11 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.duyha.hilttestingsample.R
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_calculator.*
 import javax.inject.Inject
@@ -38,7 +38,8 @@ class CalculatorActivity : AppCompatActivity() {
 
     private fun showMessage(@StringRes msgId: Int) {
         val msg = getString(msgId)
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
+        //Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
+        Snackbar.make(rootView, msgId, Snackbar.LENGTH_LONG).show()
 
     }
 
