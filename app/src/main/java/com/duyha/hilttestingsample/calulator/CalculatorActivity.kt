@@ -5,26 +5,22 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.duyha.hilttestingsample.R
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_calculator.*
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class CalculatorActivity : AppCompatActivity() {
 
-    @Inject lateinit var viewModelFactory: CalculatorViewModelFactory
-    private lateinit var viewModel: CalculatorViewModel
+    private val viewModel: CalculatorViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calculator)
-
-        viewModel = ViewModelProvider(this, viewModelFactory).get(CalculatorViewModel::class.java)
         viewModel.sum.observe(this, Observer {
             tvSum.text = it.toString()
         })

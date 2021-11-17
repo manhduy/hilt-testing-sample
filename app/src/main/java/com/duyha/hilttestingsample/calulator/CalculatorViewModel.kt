@@ -6,9 +6,11 @@ import androidx.lifecycle.ViewModel
 import com.duyha.hilttestingsample.Calculator
 import com.duyha.hilttestingsample.Event
 import com.duyha.hilttestingsample.R
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class CalculatorViewModel constructor(
+@HiltViewModel
+class CalculatorViewModel @Inject constructor(
     private val calculator: Calculator
 ) : ViewModel() {
 
