@@ -7,6 +7,7 @@ import com.duyha.hilttestingsample.Calculator
 import com.duyha.hilttestingsample.Event
 import com.duyha.hilttestingsample.R
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
 
 @HiltViewModel
