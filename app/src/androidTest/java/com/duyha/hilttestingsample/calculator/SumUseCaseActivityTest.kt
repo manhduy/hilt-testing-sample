@@ -1,7 +1,6 @@
 package com.duyha.hilttestingsample.calculator
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -25,7 +24,7 @@ import org.junit.runner.RunWith
 @Suppress("UNCHECKED_CAST")
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
-class CalculatorActivityTest {
+class SumUseCaseActivityTest {
 
     @BindValue
     @JvmField
@@ -58,10 +57,10 @@ class CalculatorActivityTest {
         //Given
         val scenario = launchActivity<CalculatorActivity>()
         //When
-        msg.postValue(Event((R.string.msg_input_a)))
+        msg.postValue(Event((R.string.msg_invalid_a)))
         //Then
         onView(withId(com.google.android.material.R.id.snackbar_text))
-            .check(matches(withText(R.string.msg_input_a)))
+            .check(matches(withText(R.string.msg_invalid_a)))
         onView(withId(R.id.tvSum)).check(matches(withText("0")))
     }
 }
