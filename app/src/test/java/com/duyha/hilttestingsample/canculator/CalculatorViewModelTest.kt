@@ -5,18 +5,18 @@ import app.cash.turbine.test
 import com.duyha.hilttestingsample.domain.SumUseCase
 import com.duyha.hilttestingsample.calulator.CalculatorUiState
 import com.duyha.hilttestingsample.calulator.CalculatorViewModel
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.BDDMockito.given
-import org.mockito.BDDMockito.then
-import org.mockito.kotlin.mock
 
 class CalculatorViewModelTest {
 
-    private lateinit var calculator: SumUseCase
+    private lateinit var sumUseCase: SumUseCase
     private lateinit var viewModel: CalculatorViewModel
 
     private val textA = "4"
@@ -30,18 +30,18 @@ class CalculatorViewModelTest {
 
     @Before
     fun setUp() {
-        calculator = mock()
-        viewModel = CalculatorViewModel(calculator)
+        sumUseCase = mockk()
+        viewModel = CalculatorViewModel(sumUseCase)
     }
 
     @Test
-    fun test_SumReturnFromCalculator_LiveDataChanged() = runTest {
+    fun test_SumReturnFromUseCase_UpdateUiState() = runTest {
         //Given
-        given( calculator.invoke(a, b)).willReturn(sum)
+        every { sumUseCase.invoke(a, b) } returns  sum
         //When
         viewModel.onSumClick(textA, textB)
         //Then
-        then(calculator).should().invoke(a, b)
+        verify { sumUseCase.invoke(a, b) }
         viewModel.uiState.test {
             assertEquals(CalculatorUiState.Success(sum), awaitItem())
             cancelAndConsumeRemainingEvents()
@@ -54,7 +54,7 @@ class CalculatorViewModelTest {
         //When
         viewModel.onSumClick("", textB)
         //Then
-        then(calculator).shouldHaveNoInteractions()
+        verify(exactly = 0) { sumUseCase.invoke(any(), any()) }
         viewModel.uiState.test {
             assertEquals(CalculatorUiState.InvalidTextA, awaitItem())
             cancelAndConsumeRemainingEvents()
@@ -67,7 +67,7 @@ class CalculatorViewModelTest {
         //When
         viewModel.onSumClick("1", "")
         //Then
-        then(calculator).shouldHaveNoInteractions()
+        verify(exactly = 0) { sumUseCase.invoke(any(), any()) }
         viewModel.uiState.test {
             assertEquals(CalculatorUiState.InvalidTextB, awaitItem())
             cancelAndConsumeRemainingEvents()
