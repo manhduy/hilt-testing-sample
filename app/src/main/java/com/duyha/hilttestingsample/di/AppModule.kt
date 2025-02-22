@@ -1,6 +1,6 @@
 package com.duyha.hilttestingsample.di
 
-import com.duyha.hilttestingsample.Calculator
+import com.duyha.hilttestingsample.domain.SumUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,5 +13,5 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideCalculator(): Calculator = Calculator()
+    fun provideCalculator(): SumUseCase = SumUseCase()
 }

@@ -1,42 +1,34 @@
 package com.duyha.hilttestingsample.calulator
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.duyha.hilttestingsample.Calculator
-import com.duyha.hilttestingsample.Event
-import com.duyha.hilttestingsample.R
+import com.duyha.hilttestingsample.domain.SumUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
 class CalculatorViewModel @Inject constructor(
-    private val calculator: Calculator
+    private val calculator: SumUseCase
 ) : ViewModel() {
 
-    private val _sum = MutableLiveData<Int>().apply { value = 0 }
-    val sum: LiveData<Int>
-        get() = _sum
-
-    private val _msg = MutableLiveData<Event<Int>>()
-    val msg: LiveData<Event<Int>>
-        get() = _msg
+    private val _uiState = MutableStateFlow<CalculatorUiState>(CalculatorUiState.Initial)
+    val uiState: StateFlow<CalculatorUiState> = _uiState.asStateFlow()
 
     fun onSumClick(textA: String, textB: String) {
-        if (textA.isEmpty()) {
-            _sum.value = 0
-            _msg.value =
-                Event(R.string.msg_input_a)
+        val intA = textA.toIntOrNull()
+        if (intA == null) {
+            _uiState.value = CalculatorUiState.InvalidTextA
             return
         }
 
-        if (textB.isEmpty()) {
-            _sum.value = 0
-            _msg.value =
-                Event(R.string.msg_input_b)
+        val intB = textB.toIntOrNull()
+        if (intB == null) {
+            _uiState.value = CalculatorUiState.InvalidTextB
             return
         }
 
-        _sum.value = calculator.sum(textA.toInt(), textB.toInt())
+        _uiState.value = CalculatorUiState.Success(calculator(intA, intB))
     }
 }

@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Hilt Testing Sample</string>
-    <string name="msg_input_a">Please input A</string>
-    <string name="msg_input_b">Please input B</string>
+    <string name="msg_invalid_a">Invalid A</string>
+    <string name="msg_invalid_b">Invalid B</string>
 </resources>
