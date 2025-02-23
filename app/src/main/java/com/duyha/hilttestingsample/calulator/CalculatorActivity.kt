@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -52,6 +53,7 @@ fun CalculatorScreen(
     var textB by remember { mutableStateOf("") }
     val uiState by viewModel.uiState.collectAsState()
     val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -63,7 +65,7 @@ fun CalculatorScreen(
             label = {
                 Text(
                     text = "A",
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleLarge
                 )
             },
             onValueChange =  { text ->
@@ -73,7 +75,8 @@ fun CalculatorScreen(
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Done
-            )
+            ),
+            textStyle = MaterialTheme.typography.titleLarge
         )
         TextField(
             modifier = Modifier.padding(top = 16.dp),
@@ -81,7 +84,7 @@ fun CalculatorScreen(
             label = {
                 Text(
                     text = "B",
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleLarge
                 )
             },
             onValueChange =  { text ->
@@ -91,13 +94,15 @@ fun CalculatorScreen(
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Done
-            )
+            ),
+            textStyle = MaterialTheme.typography.titleLarge
         )
         Button(
-            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp),
+            modifier = Modifier.padding(top = 32.dp, bottom = 32.dp),
             onClick = {
                 viewModel.onSumClick(textA, textB)
                 keyboardController?.hide()
+                focusManager.clearFocus()
             }
         ) {
             Text(
